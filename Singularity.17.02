@@ -16,3 +16,4 @@ From: alpine:3.13.1
     wget -qO- https://github.com/rjchallis/assembly-stats/archive/17.02.tar.gz | tar zxvf -
     cp assembly-stats-17.02/pl/* /usr/local/bin/
     chmod +x /usr/local/bin/*.pl
+    
