@@ -11,9 +11,8 @@ From: alpine:3.13.1
 
 %post
     apk add --no-cache perl=5.32.0-r0 perl-app-cpanminus=1.7044-r3 wget=1.21.1-r1 \
-    build-base=0.5-r2
+    build-base=0.5-r2 bash=5.1.0-r0
     cpanm JSON
     wget -qO- https://github.com/rjchallis/assembly-stats/archive/17.02.tar.gz | tar zxvf -
     cp assembly-stats-17.02/pl/* /usr/local/bin/
     chmod +x /usr/local/bin/*.pl
-    
