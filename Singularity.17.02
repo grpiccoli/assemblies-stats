@@ -19,13 +19,20 @@ cd $BIN
 wget -qO- https://github.com/rjchallis/assembly-stats/archive/17.02.tar.gz | tar zxvf -
 mv assembly-stats-17.02/pl/*.pl $BIN/
 rm -rf assembly-stats-17.02/pl assembly-stats-17.02/json assembly-stats-17.02/screenshots assembly-stats-17.02/assembly-stats.html
-wget -O assembly-stats-17.02/ https://github.com/kiwiepic/assembly-stats/assembly-stats.html
+wget -O assembly-stats-17.02/assembly-stats.html https://raw.githubusercontent.com/kiwiepic/assembly-stats/master/assembly-stats.html
 tee -a $BIN/create-report << EOT
 #!/bin/bash
+cp -R $BIN/assembly-stats-17.02 .
 mkdir -p json
-echo "var \$2 = "
-asm2stats.pl \$1 >> json/\$2.json
-echo "localStorage.setItem('\$2',JSON.stringify(\$2))" >> json/\$2.json
-cp $BIN/assembly-stats-17.02 \$2.stats
+for (( i= 0; i<= $#; i++))
+do
+    name=`basename \$1`
+    name=\${name//\./_}
+    echo "var \$name = " > json/\$name.json
+    asm2stats.pl \$1 >> json/\$name.json
+    echo "localStorage.setItem('\$name',JSON.stringify(\$name))" >> json/\$name.json
+    sed -r 's%<!--add_jsons_here-->%a <script type="text/javascript" src="json/\$name.json"></script>%'
+    shift
+done
 EOT
 chmod 777 $BIN/*
