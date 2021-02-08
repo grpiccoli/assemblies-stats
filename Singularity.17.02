@@ -14,5 +14,11 @@ From: alpine:3.13.1
     build-base=0.5-r2 bash=5.1.0-r0
     cpanm JSON
     wget -qO- https://github.com/rjchallis/assembly-stats/archive/17.02.tar.gz | tar zxvf -
-    cp assembly-stats-17.02/pl/* /usr/local/bin/
-    chmod +x /usr/local/bin/*.pl
+    cp assembly-stats-17.02/pl/* assembly-stats-17.02/assembly-stats.html /usr/local/bin/
+    cd /usr/local/bin
+    tee -a create-report << EOT
+    #!/bin/bash
+    wget -qO- https://raw.githubusercontent.com/rjchallis/assembly-stats/17.02/assembly-stats.html | \
+    sed 's!(href=")({css,json})!$1https://raw.githubusercontent.com/rjchallis/assembly-stats/17.02/$2!g'
+    EOT
+    chmod +x *.pl create-report
