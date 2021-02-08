@@ -10,16 +10,22 @@ SPECIES "Bluff Oyster"
 PROJECT "Flat Oyster Genomics"
 
 %post
-BIN=/usr/local/bin
+export BIN=/usr/local/bin
+echo "export BIN=$BIN" >> $SINGULARITY_ENVIRONMENT
 apk add --no-cache perl=5.32.0-r0 perl-app-cpanminus=1.7044-r3 wget=1.21.1-r1 \
-build-base=0.5-r2 bash=5.1.0-r0
+build-base=0.5-r2 bash=5.1.0-r0 sed=4.8-r0
 cpanm JSON
+cd $BIN
 wget -qO- https://github.com/rjchallis/assembly-stats/archive/17.02.tar.gz | tar zxvf -
-cp assembly-stats-17.02/pl/*.pl $BIN/
-rm -rf assembly-stats-17.02/
+mv assembly-stats-17.02/pl/*.pl $BIN/
+rm -rf assembly-stats-17.02/pl assembly-stats-17.02/json assembly-stats-17.02/screenshots assembly-stats-17.02/assembly-stats.html
+wget -O assembly-stats-17.02/ https://github.com/kiwiepic/assembly-stats/assembly-stats.html
 tee -a $BIN/create-report << EOT
 #!/bin/bash
-wget -qO- https://raw.githubusercontent.com/rjchallis/assembly-stats/17.02/assembly-stats.html | \
-sed 's!(href=")({css,json})!$1https://raw.githubusercontent.com/rjchallis/assembly-stats/17.02/$2!g'
+mkdir -p json
+echo "var \$2 = "
+asm2stats.pl \$1 >> json/\$2.json
+echo "localStorage.setItem('\$2',JSON.stringify(\$2))" >> json/\$2.json
+cp $BIN/assembly-stats-17.02 \$2.stats
 EOT
 chmod 777 $BIN/*
