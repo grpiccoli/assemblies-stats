@@ -1,6 +1,5 @@
 #!/bin/bash
-cp -R /usr/local/bin/assembly-stats-17.02 .
-mkdir -p json
+mkdir -p json css js
 cmd="cat /usr/local/bin/assembly-stats-17.02/assembly-stats.html | sed -r"
 for (( i= 0; i <= $#; i++))
 do
@@ -13,3 +12,11 @@ do
     shift
 done
 eval $cmd
+cat /usr/local/bin/assembly-stats-17.02/css/circle-plot.css > css/circle-plot.css
+cat /usr/local/bin/assembly-stats-17.02/css/square-plot.css > css/square-plot.css
+cat /usr/local/bin/assembly-stats-17.02/css/table.css > css/table.css
+cat /usr/local/bin/assembly-stats-17.02/js/circle-plot.js > js/circle-plot.js
+cat /usr/local/bin/assembly-stats-17.02/js/square-plot.js > js/square-plot.js
+cat /usr/local/bin/assembly-stats-17.02/js/table.js > js/table.js
+cat /usr/local/bin/assembly-stats-17.02/js/d3.js > js/d3.js
+cat /usr/local/bin/assembly-stats-17.02/js/jquery.min.js > js/jquery.min.css
