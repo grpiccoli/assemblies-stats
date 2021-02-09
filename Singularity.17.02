@@ -34,5 +34,4 @@ wget -O create-stats https://raw.githubusercontent.com/kiwiepic/assembly-stats/m
 chmod 777 $BIN/*
 
 #cleaning
-apk del tzdata \ 
-build-base perl-app-cpanminus wget
+apk del tzdata build-base perl-app-cpanminus wget
