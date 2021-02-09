@@ -21,7 +21,7 @@
     body {
       padding: 0px;
       margin: 0px;
-      overflow: auto;
+      /*overflow: auto;*/
     }
 
     #assembly {
@@ -85,7 +85,7 @@
       text-align: center;
     }
 
-    #assembly_stats_left {
+    .assembly_stats_left {
       position: relative;
       width: 50%;
       height: 90%;
@@ -93,7 +93,7 @@
       text-align: center;
     }
 
-    #assembly_stats_right {
+    .assembly_stats_right {
       position: relative;
       width: 50%;
       height: 90%;
@@ -133,8 +133,12 @@
             var longest = arr.reduce(function(a,b){
               return Math.max(a,b.scaffolds[0])
             },0)
-            arr.forEach(function(e){
+            arr.forEach(function(e,i){
               plot_container.append('div').attr('id', e.name).append('p').text(e.name);
+              if(arr.length > 1){
+                var suff = i % 2 == 0 ? "assembly_stats_left" : "assembly_stats_right";
+                $("#"+e.name).addClass(suff);
+              }
               e.drawPlot(e.name, longest, span);
               //draw without adjusting scale
               //e.drawPlot('asm-plot-container')
