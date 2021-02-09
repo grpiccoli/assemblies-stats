@@ -4,6 +4,7 @@ cmd="cat /usr/local/bin/assembly-stats-17.02/assembly-stats.html | sed -r"
 for (( i= 0; i <= $#; i++))
 do
     name=`basename $1`
+    name=${name%.*}
     name=${name//./_}
     echo "var $name = " > json/$name.json
     asm2stats.pl $1 >> json/$name.json
