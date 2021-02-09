@@ -9,7 +9,7 @@ do
     echo "var $name = " > json/$name.json
     asm2stats.pl $1 >> json/$name.json
     echo "localStorage.setItem('$name',JSON.stringify($name))" >> json/$name.json
-    cmd="$cmd -e 's%<!--add_jsons_here-->%a <script type=\"text/javascript\" src=\"json/$name.json\"></script>%'"
+    cmd="$cmd -e 's%<!--add_jsons_here-->%& <script type=\"text/javascript\" src=\"json/$name.json\"></script>%'"
     shift
 done
 eval $cmd
