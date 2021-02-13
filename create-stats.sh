@@ -1,13 +1,13 @@
 #!/bin/bash
 mkdir -p json css js
 cmd="cat /usr/local/bin/assembly-stats-17.02/assembly-stats.html | sed -r"
-for (( i= 0; i <= $#; i++))
+for fasta in "$@"
 do
-    name=`basename $1`
+    name=`basename $fasta`
     name=${name%.*}
     name=${name//./_}
     echo "var $name = " > json/$name.json
-    asm2stats.pl $1 >> json/$name.json
+    asm2stats.pl $fasta >> json/$name.json
     echo "localStorage.setItem('$name',JSON.stringify($name))" >> json/$name.json
     cmd="$cmd -e 's%<!--add_jsons_here-->%&\n<script type=\"text/javascript\" src=\"json/$name.json\"></script>%'"
     shift
